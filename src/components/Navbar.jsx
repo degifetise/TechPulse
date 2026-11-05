@@ -18,7 +18,7 @@ export default function Navbar({ theme, onToggleTheme }) {
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-1 px-4 py-2.5">
         <a href="#top" className="flex items-center gap-2 font-display text-xl font-extrabold">
           <Activity className="h-6 w-6 text-cyan-600 dark:text-cyan-400" aria-hidden="true" />
-          TechPulse
+          EagleTech
         </a>
 
         <nav
