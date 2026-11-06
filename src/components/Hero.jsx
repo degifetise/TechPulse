@@ -1,78 +1,103 @@
+import { motion, useReducedMotion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { scrollToId } from "../lib/scroll";
+import TechScene from "./TechScene";
 
-const ROWS = [
-  ["Gi0/0", "192.168.10.1", "up"],
-  ["Gi0/1", "10.0.0.2", "up"],
-  ["Vlan10", "172.16.10.1", "up"],
-  ["Gi0/2", "unassigned", "down"],
-];
+// Animation presets
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.13, delayChildren: 0.1 } },
+};
+const lineIn = {
+  hidden: { y: "110%" },
+  show: { y: 0, transition: { duration: 0.65, ease: [0.2, 0.8, 0.2, 1] } },
+};
+const fadeUp = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+};
 
 export default function Hero() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const reduce = useReducedMotion();
+  const initial = reduce ? false : "hidden";
+
+  // Split the headline into sentences so each one slides in on its own line.
+  // Works for "." in English and the Ethiopic full stop "።" in Amharic.
+  const lines = t("hero_title").split(/(?<=[.።])\s+/);
+
   return (
     <div id="top" className="relative isolate">
       <div className="hero-bg absolute inset-0 -z-10" aria-hidden="true" />
-      <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="min-w-0">
-          <span className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white py-1 pl-2.5 pr-3.5 font-mono text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
+
+      <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 lg:grid-cols-[1.05fr_0.95fr]">
+        <motion.div
+          className="min-w-0"
+          variants={container}
+          initial={initial}
+          animate="show"
+        >
+          <motion.span
+            variants={fadeUp}
+            className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white/80 py-1 pl-2.5 pr-3.5 font-mono text-sm text-slate-600 backdrop-blur dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-400"
+          >
             <i className="h-2 w-2 animate-pulse rounded-full bg-emerald-500 dark:bg-emerald-400" />
             {t("hero_badge")}
-          </span>
-          <h1 className="mb-4 mt-5 font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
-            {t("hero_title")}
-          </h1>
-          <p className="max-w-xl text-lg text-slate-600 dark:text-slate-400">{t("hero_sub")}</p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <button type="button" className="btn-primary" onClick={() => scrollToId("diagnose")}>
+          </motion.span>
+
+          {/* key changes with the language, so the headline plays again when the visitor switches */}
+          <motion.h1
+            key={lang}
+            variants={container}
+            initial={initial}
+            animate="show"
+            className="mb-4 mt-5 font-display text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl"
+          >
+            {lines.map((line, i) => (
+              <span key={i} className="block overflow-hidden py-1">
+                <motion.span
+                  variants={lineIn}
+                  className={`block ${i === lines.length - 1 ? "text-indigo-600 dark:text-indigo-400" : ""}`}
+                >
+                  {line}
+                </motion.span>
+              </span>
+            ))}
+          </motion.h1>
+
+          <motion.p
+            variants={fadeUp}
+            className="max-w-xl text-lg text-slate-600 dark:text-slate-400"
+          >
+            {t("hero_sub")}
+          </motion.p>
+
+          <motion.div variants={fadeUp} className="mt-7 flex flex-wrap gap-3">
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={() => scrollToId("diagnose")}
+            >
               {t("cta_diagnose")}
             </button>
-            <button type="button" className="btn-ghost" onClick={() => scrollToId("pricing")}>
+            <button
+              type="button"
+              className="btn-ghost"
+              onClick={() => scrollToId("pricing")}
+            >
               {t("cta_quote")}
             </button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        {/* Router console: a real `show ip interface brief` view, the kind of thing we fix daily */}
-        <div
-          className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-xl shadow-indigo-500/10 dark:border-slate-800 dark:bg-slate-950"
-          aria-label="Router console example"
+        <motion.div
+          className="min-w-0"
+          initial={reduce ? false : { opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
         >
-          <div className="flex justify-between border-b border-slate-200 px-4 py-2 font-mono text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400">
-            <span>BRANCH-R1</span>
-            <span>console</span>
-          </div>
-          <pre className="overflow-x-auto px-4 pb-1.5 pt-3.5 font-mono text-[13px]">BRANCH-R1# show ip interface brief</pre>
-          <div className="overflow-x-auto px-4 pb-3">
-            <table className="w-full border-collapse font-mono text-xs">
-              <thead>
-                <tr className="border-b border-slate-200 text-left text-slate-500 dark:border-slate-800 dark:text-slate-400">
-                  <th className="py-1.5 pr-3 font-medium">Interface</th>
-                  <th className="py-1.5 pr-3 font-medium">IP-Address</th>
-                  <th className="py-1.5 font-medium">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {ROWS.map(([name, ip, status]) => (
-                  <tr key={name}>
-                    <td className="whitespace-nowrap py-1.5 pr-3">{name}</td>
-                    <td className="whitespace-nowrap py-1.5 pr-3">{ip}</td>
-                    <td
-                      className={`py-1.5 ${
-                        status === "up"
-                          ? "text-emerald-700 dark:text-emerald-400"
-                          : "text-rose-700 dark:text-rose-400"
-                      }`}
-                    >
-                      {status}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <p className="px-4 pb-3.5 text-sm text-slate-500 dark:text-slate-400">{t("term_cap")}</p>
-        </div>
+          <TechScene />
+        </motion.div>
       </div>
     </div>
   );

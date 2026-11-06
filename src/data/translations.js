@@ -2,7 +2,6 @@
 // REVIEW NEEDED: Sidaamu Afoo has only a few strings. Anything missing falls back to English.
 // Have a native speaker review the Amharic and Sidaamu Afoo text before launch.
 
-
 export const translations = {
   en: {
     nav_services: "Services",
@@ -17,6 +16,15 @@ export const translations = {
     cta_diagnose: "Diagnose a problem",
     cta_quote: "Get a quote",
     term_cap: "A branch router after setup. Gi0/2 is the spare port.",
+    scene_cloud: "Internet",
+    scene_router: "Router",
+    scene_laptop: "Laptop",
+    scene_phone: "Phone",
+    scene_pc: "Desktop PC",
+    scene_switch: "Switch",
+    scene_issue: "Issue found",
+    scene_fixed: "Fixed",
+    scene_hint: "Tap a device to watch it get fixed.",
     services_title: "Five services, one team",
     services_sub: "One workshop for repairs, networks, websites and training.",
     svc_it: "IT support",
@@ -135,6 +143,15 @@ export const translations = {
     cta_diagnose: "ችግርዎን ይመርምሩ",
     cta_quote: "ዋጋ ይጠይቁ",
     term_cap: "ከማዋቀር በኋላ የቅርንጫፍ ራውተር። Gi0/2 መለዋወጫ ፖርት ነው።",
+    scene_cloud: "ኢንተርኔት",
+    scene_router: "ራውተር",
+    scene_laptop: "ላፕቶፕ",
+    scene_phone: "ስልክ",
+    scene_pc: "ዴስክቶፕ ኮምፒውተር",
+    scene_switch: "ስዊች",
+    scene_issue: "ችግር ተገኝቷል",
+    scene_fixed: "ተስተካክሏል",
+    scene_hint: "መሣሪያ ይጫኑና ሲጠገን ይመልከቱ።",
     services_title: "አምስት አገልግሎቶች፣ አንድ ቡድን",
     services_sub: "ለጥገና፣ ለኔትወርክ፣ ለድረ-ገጽ እና ለሥልጠና አንድ ቦታ።",
     svc_it: "የአይቲ ድጋፍ",
@@ -224,7 +241,7 @@ export const translations = {
     sending: "በመላክ ላይ…",
     thanks: "አመሰግናለሁ።",
     sent: "ጥያቄዎ ተልኳል። የትኬት ቁጥር፦",
-    footer_rights: "© 2026 TechPulse። መብቱ በሕግ የተጠበቀ ነው።",
+    footer_rights: "© 2026 EagelTech። መብቱ በሕግ የተጠበቀ ነው።",
     theme: "ገጽታ ቀይር",
     sid_draft: "የሲዳምኛ ድጋፍ በቅርቡ ይመጣል። ለአሁን ገጹ በእንግሊዝኛ ይታያል።",
     e_config: "የኢሜይል አገልግሎት ገና አልተዘጋጀም። እባክዎ በኋላ ይሞክሩ።",
